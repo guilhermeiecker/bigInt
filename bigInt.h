@@ -2,6 +2,7 @@
 #include <string.h>     // memset
 #include <math.h>       /* ceil */
 #include <stdio.h>      /* printf */
+#include <algorithm>
 
 typedef unsigned __int128 uint128_t;
 
@@ -30,7 +31,10 @@ public:
   BigInt& operator&=(const uint128_t&);
   BigInt& operator&=(const uint64_t&);
 
-  BigInt operator~(const BigInt);
+  BigInt operator~();
+
+  BigInt& operator>>(const uint64_t&);
+  BigInt& operator<<(const uint64_t&);
 
   friend BigInt operator&(BigInt lhs, const BigInt& rhs) // otherwise, both parameters may be const references
   {
@@ -48,6 +52,41 @@ public:
   {
     lhs &= rhs; // reuse compound assignment
     return lhs; // return the result by value (uses move constructor)
+  }
+
+  friend bool operator<(const BigInt& l, const BigInt& r)
+  {
+    uint64_t i;
+    if(l.nblocks >= r.nblocks)
+    {
+      for (i = l.nblocks - 1; i > r.nblocks - 1; i-- )
+      {
+        if(l.blocks[i] > 0) 
+          return false;
+      }
+      for (i = r.nblocks; i-- > 0; )
+      {
+        if(l.blocks[i] < r.blocks[i])
+          return true;
+        if(l.blocks[i] > r.blocks[i])
+          return false;
+      }
+    }else
+    {
+      for (i = r.nblocks - 1; i > l.nblocks - 1; i-- )
+      {
+        if(r.blocks[i] > 0)
+          return true;
+      }
+      for (i = l.nblocks; i-- > 0; )
+      {
+        if(l.blocks[i] < r.blocks[i])
+          return true;
+        if(l.blocks[i] > r.blocks[i])
+          return false;
+      }
+    }
+    return false;
   }
 
   uint128_t* blocks;
@@ -196,22 +235,58 @@ BigInt& BigInt::operator&=(const uint64_t& rhs)
   return *this;
 }
 
-BigInt BigInt::operator~(const BigInt )
+BigInt BigInt::operator~()
 {
-  
+  BigInt aux(size);
+  for(uint64_t i = 0; i < nblocks; i++)
+    aux.blocks[i] = ~(blocks[i]);
+
+  return aux;
 }
 
-//TODO: ~ BigInt
+BigInt& BigInt::operator>>(const uint64_t& rhs)
+{
+  uint128_t aux1, aux2;
+  aux1 = aux2 = 0;
+  
+  if (rhs < 128)
+  { 
+    for (uint64_t i = nblocks; i-- > 0; )
+    {
+      aux1 = blocks[i] << (128 - rhs);
+      blocks[i] = blocks[i] >> rhs;
+      blocks[i] = blocks[i] | aux2;
+      aux2 = aux1; 
+    }
+  } else
+  {
+    printf("error\n");
+  }  
+  return *this; // return the result by reference
+}
 
-//TODO: >> uint64_t
+BigInt& BigInt::operator<<(const uint64_t& rhs)
+{
+  uint128_t aux1, aux2;
+  aux1 = aux2 = 0;
+  
+  if (rhs < 128)
+  {
+    for (uint64_t i = 0; i < nblocks; i++)
+    {
+      aux1 = blocks[i] >> (128 - rhs);
+      blocks[i] = blocks[i] << rhs;
+      blocks[i] = blocks[i] | aux2;
+      aux2 = aux1;
+    }
+  } else
+  {
+    printf("error\n");
+  }	
+  return *this; // return the result by reference
+}
 
-//TODO: << uint64_t
 
-//TODO: / uint64_t
-
-//TODO: / uint128_t
-
-//TODO: / BigInt
 
 //TODO: < uint64_t
 
