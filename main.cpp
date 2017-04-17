@@ -6,12 +6,10 @@ using namespace std;
 int main()
 {
   BigInt n1(1280);
-  n1 = 4;
+  n1 = (uint64_t)7;
+
+  n1 = n1 & (uint128_t)5;
   n1.print();
-
-  BigInt n2 = n1;
-  n2.print();
-
-  cout << "uhuuul" << endl;  
+ 
   return 0;
 }
