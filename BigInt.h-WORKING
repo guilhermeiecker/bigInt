@@ -18,7 +18,7 @@ public:
   BigInt(BigInt&);
 
   void print128(uint128_t);
-
+  
   uint128_t get_msb();
   uint128_t get_lsb();
 
@@ -27,10 +27,10 @@ public:
 
   BigInt& operator=(const uint64_t&);
   BigInt& operator=(const uint128_t&);
-
+  
   BigInt& operator++();
   BigInt operator++(int);
-
+  
   BigInt& operator--();
   BigInt operator--(int);
 
@@ -75,7 +75,7 @@ public:
       os << bits[i];
 
     return os;
-  }
+  } 
 
   friend BigInt operator&(BigInt lhs, BigInt& rhs) // otherwise, both parameters may be const references
   {
@@ -117,7 +117,7 @@ public:
   }
 
   friend bool operator<(const BigInt& l, const uint128_t& r)
-  {
+  {  
     if (l.msb > 0)
       return false;
     if (l.lsb < r)
@@ -158,7 +158,7 @@ public:
     return lhs; // return the result by value (uses move constructor)
   }
 
-private:
+private:  
   uint128_t msb;
   uint128_t lsb;
 };
@@ -198,7 +198,7 @@ void BigInt::print128(uint128_t n)
     r = p % 2;
     printf("%d", r);
     p = q;
-  } while (q > 0);
+  } while (q > 0); 
 }
 
 uint128_t BigInt::get_msb()
@@ -237,8 +237,8 @@ BigInt& BigInt::operator++()
 {
   uint128_t current = lsb;
   lsb++;
-  msb = msb + (current > lsb) ? 1 : 0;
-
+  msb = msb + (current > lsb) ? 1 : 0; 
+  
   return *this;
 }
 
@@ -246,7 +246,7 @@ BigInt BigInt::operator++(int)
 {
   BigInt tmp(*this); // copy
   operator++(); // pre-increment
-
+  
   return tmp;   // return old value
 }
 
@@ -268,7 +268,7 @@ BigInt BigInt::operator--(int)
 }
 
 BigInt BigInt::operator~()
-{
+{ 
   BigInt aux(*this);
   aux.set_msb(~msb);
   aux.set_lsb(~lsb);
@@ -296,7 +296,7 @@ BigInt& BigInt::operator&=(uint64_t& rhs)
 {
   msb = 0;
   lsb = lsb & (uint128_t)rhs;
-
+  
   return *this;
 }
 
@@ -323,7 +323,7 @@ BigInt& BigInt::operator+=(uint64_t& rhs)
   uint128_t aux = lsb;
   lsb = lsb + (uint128_t)rhs;
   msb = msb + ((aux >= lsb)? 1 : 0);
-
+  
   return *this;
 }
 
@@ -343,7 +343,7 @@ BigInt& BigInt::operator>>(const int& rhs)
     lsb = lsb >> rhs;
     lsb = lsb | x;
   }
-
+ 
   return *this; // return the result by reference
 }
 
@@ -363,7 +363,7 @@ BigInt& BigInt::operator<<(const int& rhs)
     msb = msb << rhs;
     msb = msb | x;
   }
-
+  
   return *this; // return the result by reference
 }
 

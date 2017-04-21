@@ -1,39 +1,22 @@
 #include <iostream>
-#include "BigInt.h"
+#include "bigInt.h"
 
 using namespace std;
 
-int main()
+int main(int argc, char** argv)
 {
-  BigInt x((uint64_t)0);
-  BigInt y((uint128_t)1);
+  BigInt x(atol(argv[1]));
+  BigInt y(0);
 
-  if (x==y)
-    cout << "== esta errado" << endl;
-  else
-    cout << "x == y" << endl;
+  cout << "x=" << x << endl;
+  y = ~x;
+  cout << "y=" << y << endl;
 
-  BigInt z((uint64_t)0);
-  z = x + y;
-  cout << "z=" << z << endl;
+  cout << "x=" << x++ << endl;
+  cout << "y=" << y-- << endl;
 
-  z--;
-  cout << "z--=" << z << endl;
-
-  z = ~z;
-  cout << "~z =" << z << endl;
-
-  z = z & x;
-  cout << "z&0=" << z << endl;
-
-  z++;
-  cout << "z++=" << z << endl;
-
-  z = z << 4;
-  cout << "z<<=" << z << endl;
-
-  z = z >> 1;
-  cout << "z>>=" << z << endl;
+  //cout << "x=" << x++ << endl;
+  //cout << "y=" << y-- << endl;
 
   return 0;
 }
