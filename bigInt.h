@@ -41,6 +41,9 @@ public:
   BigInt operator-(const BigInt&);
   BigInt operator-(int);
 
+  BigInt operator&(const BigInt&);
+  BigInt operator&(int);
+
   bool operator==(const BigInt&);
   bool operator!=(const BigInt&);
 
@@ -230,6 +233,21 @@ BigInt BigInt::operator-(int x) {
   n.set_lsb(lsb - (uint128_t)x);
   n.set_msb(msb - (uint128_t)x - ((current < n.get_lsb()) ? 1 : 0));
   return n;
+}
+
+BigInt BigInt::operator&(const BigInt& obj) {
+  BigInt temp(0);
+  temp.set_msb(msb & obj.get_msb());
+  temp.set_lsb(lsb & obj.get_lsb());
+
+  return temp;
+}
+BigInt BigInt::operator&(int x) {
+  BigInt temp(0);
+  temp.set_msb((uint128_t)0);
+  temp.set_lsb(lsb & (uint128_t)x);
+
+  return temp;
 }
 
 bool BigInt::operator==(const BigInt& rhs) {
