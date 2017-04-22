@@ -42,7 +42,7 @@ public:
   BigInt operator-(int);
 
   BigInt operator&(const BigInt&);
-  BigInt operator&(int);
+  uint64_t operator&(int);
 
   bool operator==(const BigInt&);
   bool operator!=(const BigInt&);
@@ -242,12 +242,9 @@ BigInt BigInt::operator&(const BigInt& obj) {
 
   return temp;
 }
-BigInt BigInt::operator&(int x) {
-  BigInt temp(0);
-  temp.set_msb((uint128_t)0);
-  temp.set_lsb(lsb & (uint128_t)x);
 
-  return temp;
+uint64_t BigInt::operator&(int x) {
+  return (uint64_t)(lsb & (uint128_t)x);
 }
 
 bool BigInt::operator==(const BigInt& rhs) {

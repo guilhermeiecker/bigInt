@@ -5,12 +5,9 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-  BigInt x(0);
-  x = BigInt::pow2(atol(argv[1]));
-  int l = BigInt::log2(x);
+  BigInt x(atol(argv[1]));
 
-  cout << "2^" << atol(argv[1]) << "= " << x << endl;
-  cout << "lg2x   = " << l << endl;
+  cout << (x & 1) << endl;
 
   return 0;
 }
