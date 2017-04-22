@@ -324,7 +324,7 @@ BigInt BigInt::operator<<(int rhs)
 
 int BigInt::log2(BigInt x) {
   int count = 0;
-  while(x != 1)
+  while((x & 1) == 0)
   {
     x = x >> 1;
     count++;
