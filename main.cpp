@@ -5,18 +5,12 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-  BigInt x(atol(argv[1]));
-  BigInt y(0);
+  BigInt x(0);
+  x = BigInt::pow2(atol(argv[1]));
+  int l = BigInt::log2(x);
 
-  cout << "x=" << x << endl;
-  y = ~x;
-  cout << "y=" << y << endl;
-
-  cout << "x=" << x++ << endl;
-  cout << "y=" << y-- << endl;
-
-  //cout << "x=" << x++ << endl;
-  //cout << "y=" << y-- << endl;
+  cout << "2^" << atol(argv[1]) << "= " << x << endl;
+  cout << "lg2x   = " << l << endl;
 
   return 0;
 }
